@@ -9,7 +9,7 @@ global csd_data "$droppath/Hebert_Schreger_AER/AER-Data"
 
 * Path to root of location for results.
 * Directory must exist.
-global csd_results "$droppath/Cost of Sovereign Default/Results"
+global csd_results "$droppath/CostOfSovereignDefault/Results"
 
 
 * Code to setup global path variables
@@ -20,7 +20,7 @@ global opath "$csd_data/Notes"
 global fpath "$csd_data/Additional Data"
 global dpath "$csd_data/Datastream"
 global mpath "$csd_data/Markit/Datasets"
-global mkpath "$droppath/Cost of Sovereign Default/Markit"
+global mkpath "$droppath/CostOfSovereignDefault/Markit"
 global cpath "$csd_data/CDS Comparison"
 global ffpath "$csd_data/Argentina/Tradable/FF"
 global tpath "$csd_data/Argentina/Tradable"

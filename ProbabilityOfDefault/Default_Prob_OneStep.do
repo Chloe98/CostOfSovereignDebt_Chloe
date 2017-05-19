@@ -292,6 +292,19 @@ export delimited using "$apath/Matlab_June16.csv", replace novarnames
 cd $csd_dir/ProbabilityOfDefault
 shell $matlab -nosplash -nodesktop -r "apath='$apath/'; test=0; DefProb_Bootstrap"
 
+if "`c(os)'" == "Windows" {
+	local wait = 1
+	while `wait' {
+		cap confirm file "$apath/MATLAB_done.txt"
+		if _rc {
+			sleep 1000
+		}
+		else {
+			local wait = 0
+		}
+	}
+}
+
 ***************************
 *FILES NOW BACK FROM MATLAB
 ***************************
