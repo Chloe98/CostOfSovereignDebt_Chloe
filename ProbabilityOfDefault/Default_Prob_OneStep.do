@@ -289,6 +289,7 @@ export delimited using "$apath/Matlab_June16.csv", replace novarnames
 *Open Matlab and Run the Bootstrapping
 **************************************************
 
+cap rm $apath/MATLAB_done.csv
 cd $csd_dir/ProbabilityOfDefault
 shell $matlab -nosplash -nodesktop -r "apath='$apath/'; test=0; DefProb_Bootstrap"
 
