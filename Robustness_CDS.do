@@ -2,6 +2,7 @@
 *Robustness Table*
 ******************
 
+set more off
 
 * This can only be run from RunEverything
 
