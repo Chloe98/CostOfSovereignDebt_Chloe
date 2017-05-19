@@ -295,7 +295,7 @@ shell $matlab -nosplash -nodesktop -r "apath='$apath/'; test=0; DefProb_Bootstra
 if "`c(os)'" == "Windows" {
 	local wait = 1
 	while `wait' {
-		cap confirm file "$apath/MATLAB_done.txt"
+		cap confirm file "$apath/MATLAB_done.csv"
 		if _rc {
 			sleep 1000
 		}
