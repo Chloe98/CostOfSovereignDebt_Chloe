@@ -1,0 +1,180 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:/Users/User/Dropbox/CostOfSovereignDefault/Results/Chloe_18May2017/summary_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}18 May 2017, 20:46:10
+{com}. 
+.         summ return_ cds_ if nonevent==1 & cds_~=. & return_~=. & regexm(firmname,"`sumname'")
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}return_ {c |}{res}        386     .035057    2.773533  -12.58917   8.434234
+{txt}{space 8}cds_ {c |}{res}        386   -.0000768    .0179428  -.1030901   .0752909
+{com}.         summ return_ cds_ if eventvar==1 & cds_~=. & return_~=. & regexm(firmname,"`sumname'")
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}return_ {c |}{res}         15    .3018535    4.020008  -6.500164   7.438817
+{txt}{space 8}cds_ {c |}{res}         15   -.0009394     .050643  -.1061406   .0772012
+{com}. 
+.         corr return_ cds_ if nonevent==1 & cds_~=. & return_~=. & regexm(firmname,"`sumname'"), covariance
+{txt}(obs=386)
+
+             {c |}  return_     cds_
+{hline 13}{c +}{hline 18}
+     return_ {c |}{res}  7.69249
+        {txt}cds_ {c |}{res} -.022073  .000322
+
+{com}.         corr return_ cds_ if eventvar==1 & cds_~=. & return_~=. & regexm(firmname,"`sumname'"), covariance 
+{txt}(obs=15)
+
+             {c |}  return_     cds_
+{hline 13}{c +}{hline 18}
+     return_ {c |}{res}  16.1605
+        {txt}cds_ {c |}{res} -.152736  .002565
+
+{com}.         
+.         tempfile temp bsfile
+.         
+.         save "`temp'", replace
+{txt}(note: file C:\Users\User\AppData\Local\Temp\ST_01000001.tmp not found)
+file C:\Users\User\AppData\Local\Temp\ST_01000001.tmp saved
+{com}.         drop if ~regexm(firmname,"`sumname'")
+{txt}(14,480 observations deleted)
+{com}.         
+.         robvar cds_, by(eventvar)
+
+            {txt}{c |}           Summary of cds_
+   eventvar {c |}        Mean   Std. Dev.       Freq.
+{hline 12}{c +}{hline 36}
+          0 {c |}  {res}-.00007675   .01794279         386
+  {txt}        1 {c |}  {res}-.00093936   .05064302          15
+{txt}{hline 12}{c +}{hline 36}
+      Total {c |}  {res}-.00010902   .01999157         401
+
+{txt}W0  = {res} 53.730785{txt}   df({res}1, 399{txt})     Pr > F = {res}0.00000000
+
+{txt}W50 = {res} 52.592869{txt}   df({res}1, 399{txt})     Pr > F = {res}0.00000000
+
+{txt}W10 = {res} 52.965209{txt}   df({res}1, 399{txt})     Pr > F = {res}0.00000000
+{com}.         
+.         local w0 = r(w0)
+.         local w10 = r(w10)
+.         local w50 = r(w50)
+.         
+.         bootstrap r0=(r(w0)/`w0') r1=(r(w10)/`w10') r2=(r(w50)/`w50'), `bstyle' saving("`bsfile'", replace): robvar cds_ if regexm(firmname,"`sumname'"), by(eventvar)
+{txt}(running robvar on estimation sample)
+
+{p 0 10 2} Warning:  Because {cmd:robvar} is not an estimation command or does not set {cmd:e(sample)}, {cmd:bootstrap} has no way to determine which observations are used in calculating the statistics and so assumes that all observations are used.  This means that no observations will be excluded from the resampling because of missing values or other reasons.{p_end}
+
+{p 10 10 2} If the assumption is not true, press Break, save the data, and drop the observations that are to be excluded. 
+Be sure that the dataset in memory contains only the relevant data.{p_end}
+(note: file C:\Users\User\AppData\Local\Temp\ST_01000002.tmp not found)
+
+Bootstrap replications ({res}1000{txt})
+{hline 4}{c +}{hline 3} 1 {hline 3}{c +}{hline 3} 2 {hline 3}{c +}{hline 3} 3 {hline 3}{c +}{hline 3} 4 {hline 3}{c +}{hline 3} 5 
+..................................................    50
+..................................................   100
+..................................................   150
+..................................................   200
+..................................................   250
+..................................................   300
+..................................................   350
+..................................................   400
+..................................................   450
+..................................................   500
+..................................................   550
+..................................................   600
+..................................................   650
+..................................................   700
+..................................................   750
+..................................................   800
+..................................................   850
+..................................................   900
+..................................................   950
+..................................................  1000
+{res}
+{txt}Bootstrap results
+
+{col 1}Number of strata{col 20}= {res}        2{txt}{col 49}Number of obs{col 67}= {res}       401
+{txt}{col 49}Replications{col 67}= {res}     1,000
+{p2colset 7 17 21 2}{...}
+
+{txt}{p2col :command:}robvar cds_, by(eventvar) {p_end}
+{p2colset 12 17 21 2}{...}
+{p2col :r0:}{res:r(w0)/53.73078457388368}{p_end}
+{p2colset 12 17 21 2}{...}
+{p2col :r1:}{res:r(w10)/52.96520882701409}{p_end}
+{p2colset 12 17 21 2}{...}
+{p2col :r2:}{res:r(w50)/52.5928688638234}{p_end}
+
+{res}{txt}{ralign 78:(Replications based on {res:401} clusters in date)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}   Observed{col 26}   Bootstrap{col 54}         Norm{col 67}al-based
+{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}r0 {c |}{col 14}{res}{space 2}        1{col 26}{space 2} .6655467{col 37}{space 1}    1.50{col 46}{space 3}0.133{col 54}{space 4}-.3044476{col 67}{space 3} 2.304448
+{txt}{space 10}r1 {c |}{col 14}{res}{space 2}        1{col 26}{space 2} .6911342{col 37}{space 1}    1.45{col 46}{space 3}0.148{col 54}{space 4}-.3545981{col 67}{space 3} 2.354598
+{txt}{space 10}r2 {c |}{col 14}{res}{space 2}        1{col 26}{space 2} .5642703{col 37}{space 1}    1.77{col 46}{space 3}0.076{col 54}{space 4}-.1059494{col 67}{space 3} 2.105949
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{com}.         
+.         use "`bsfile'", clear
+{txt}(bootstrap: robvar)
+{com}.         su r*, detail
+
+                   {txt}r(w0)/53.73078457388368
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}  .146803       .0137716
+{txt} 5%    {res} .2744458       .0359733
+{txt}10%    {res} .3816105       .0564873       {txt}Obs         {res}      1,000
+{txt}25%    {res} .6247718       .0798479       {txt}Sum of Wgt. {res}      1,000
+
+{txt}50%    {res} .9703205                      {txt}Mean          {res} 1.096724
+                        {txt}Largest       Std. Dev.     {res} .6655467
+{txt}75%    {res} 1.398739       3.626726
+{txt}90%    {res} 1.996061       4.174518       {txt}Variance      {res} .4429525
+{txt}95%    {res} 2.337049       4.526529       {txt}Skewness      {res} 1.423903
+{txt}99%    {res} 3.226425       5.817043       {txt}Kurtosis      {res} 6.991467
+
+                  {txt}r(w10)/52.96520882701409
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}  .134873       .0165127
+{txt} 5%    {res} .2627654       .0251277
+{txt}10%    {res} .3793322       .0667893       {txt}Obs         {res}      1,000
+{txt}25%    {res} .6242446       .0736276       {txt}Sum of Wgt. {res}      1,000
+
+{txt}50%    {res} .9666812                      {txt}Mean          {res} 1.114471
+                        {txt}Largest       Std. Dev.     {res} .6911342
+{txt}75%    {res} 1.432375       3.969766
+{txt}90%    {res}  2.05106       4.222009       {txt}Variance      {res} .4776664
+{txt}95%    {res} 2.459026       4.546124       {txt}Skewness      {res} 1.417425
+{txt}99%    {res} 3.409903       5.894766       {txt}Kurtosis      {res} 6.759565
+
+                   {txt}r(w50)/52.5928688638234
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0976921       .0048811
+{txt} 5%    {res} .2115412       .0096798
+{txt}10%    {res} .3190106       .0555932       {txt}Obs         {res}      1,000
+{txt}25%    {res} .5182124       .0564424       {txt}Sum of Wgt. {res}      1,000
+
+{txt}50%    {res} .8388118                      {txt}Mean          {res} .9287867
+                        {txt}Largest       Std. Dev.     {res} .5642703
+{txt}75%    {res} 1.193499       3.012866
+{txt}90%    {res} 1.712767       3.192314       {txt}Variance      {res} .3184009
+{txt}95%    {res} 1.999579        3.70459       {txt}Skewness      {res} 1.372699
+{txt}99%    {res} 2.591635       5.269182       {txt}Kurtosis      {res} 7.333486
+{com}.         
+.         use "`temp'", clear
+. 
+.         log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:/Users/User/Dropbox/CostOfSovereignDefault/Results/Chloe_18May2017/summary_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}18 May 2017, 20:46:20
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
